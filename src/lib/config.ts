@@ -1,3 +1,4 @@
+import "dotenv/config"; // Auto-loads environment variables
 import { env } from "node:process";
 import { z } from "zod";
 import type { AtpAgentLoginOpts } from "@atproto/api";

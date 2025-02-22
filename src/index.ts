@@ -1,6 +1,5 @@
-import Bot from "./lib/bot.js";
-import getPostText from "./lib/getPostText.js";
+import  { ClimateHashBot } from "./lib/bot.js";
+import { bskyService } from "./lib/config.js";
 
-const text = await Bot.run(getPostText, { dryRun: true });
-
-console.log(`[${new Date().toISOString()}] Posted: "${text}"`);
+const bot = new ClimateHashBot(bskyService);
+bot.listenForMentions(); // Start listening for mentions instead of firehose
