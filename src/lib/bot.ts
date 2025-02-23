@@ -97,10 +97,15 @@ export class ClimateHashBot {
 
       // Generate hashtags and reply
       console.log(`🔍 Mention detected without hashtags: ${post.text}`);
-      const hashtags = await this.fetchHashtags(post.text);
-      if (hashtags.length > 0) {
-        const newText = `${post.text} ${hashtags.join(" ")}`;
-        await this.postReply(post.uri, post.cid, newText);
+      const urlMatch = post.text.match(/(https?:\/\/[^\s]+|www\.[^\s]+|\b[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b)/);
+      if (urlMatch) {
+        const urlOnly = urlMatch[0];
+
+        const hashtags = await this.fetchHashtags(urlOnly); // Pass only the extracted URL
+        if (hashtags.length > 0) {
+          const newText = `${urlOnly} ${hashtags.join(" ")}`;
+          await this.postReply(post.uri, post.cid, newText);
+        }
       }
     } catch (error) {
       console.error("❌ Error handling mention:", error);
