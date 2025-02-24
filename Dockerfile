@@ -7,16 +7,19 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install dependencies (including TypeScript)
+# Install dependencies
 RUN npm install --only=production
 
-# Copy the rest of the project
+# Copy all source files
 COPY . .
+
+# Copy environment file
+COPY .env .env
 
 # Build TypeScript code
 RUN npm run build
 
-# Expose a port (optional, useful for future extensions)
+# Expose Cloud Run's required port
 EXPOSE 3000
 
 # Start the bot
