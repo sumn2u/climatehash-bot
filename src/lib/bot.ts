@@ -96,17 +96,20 @@ export class ClimateHashBot {
       }
 
       // Generate hashtags and reply
-      console.log(`🔍 Mention detected without hashtags: ${post.text}`);
-      const urlMatch = post.text.match(/(https?:\/\/[^\s]+|www\.[^\s]+|\b[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b)/);
-      if (urlMatch) {
-        const urlOnly = urlMatch[0];
+      const urlMatches = post.text.match(/\b[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b/g);
+      if (urlMatches) {
+        // Filter out @mentions
+        const urlOnly = urlMatches.find(url => !post.text.includes(`@${url}`));
 
-        const hashtags = await this.fetchHashtags(urlOnly); // Pass only the extracted URL
-        if (hashtags.length > 0) {
-          const newText = `${urlOnly} ${hashtags.join(" ")}`;
-          await this.postReply(post.uri, post.cid, newText);
+        if (urlOnly) {
+          const hashtags = await this.fetchHashtags(urlOnly); // Pass only the extracted URL
+          if (hashtags.length > 0) {
+            const newText = `${urlOnly} ${hashtags.join(" ")}`;
+            await this.postReply(post.uri, post.cid, newText);
+          }
         }
       }
+
     } catch (error) {
       console.error("❌ Error handling mention:", error);
     }
@@ -143,6 +146,6 @@ export class ClimateHashBot {
 
     setInterval(async () => {
       await this.checkNotifications();
-    }, 30000); // Check every 30 seconds
+    }, 600000); // Check every 10 minutes
   }
 }
