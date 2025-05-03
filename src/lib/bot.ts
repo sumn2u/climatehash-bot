@@ -46,7 +46,8 @@ export class ClimateHashBot {
   async fetchHashtags(text: string): Promise<string[]> {
     try {
       const response = await axios.post<{ response: string }>(
-        "https://get-hashtag-7dgi4y93.uc.gateway.dev/hashbot",
+        // @TODO Provide Hashbot URL
+        "https://hashbot.url",
         { url: text },
         { headers: { "Content-Type": "application/json" } }
       );
