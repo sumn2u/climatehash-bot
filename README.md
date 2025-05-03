@@ -62,6 +62,10 @@ Build the project with:
 npm run build
 ```
 
+
+> **Note:** Update the URL in [`src/lib/bot.ts`](https://github.com/sumn2u/climatehash-bot/blob/main/src/lib/bot.ts#L50) on line 50 to your desired endpoint.
+
+
 You can now run the bot locally with the command:
 
 ```sh
