@@ -1,3 +1,4 @@
+
 # Build your own Bluesky bot 🦋
 
 This is a template repo for building [Bluesky](https://bsky.app/) bots that post on their own schedule. It uses [TypeScript](https://www.typescriptlang.org/) to build the bot and [GitHub Actions](https://docs.github.com/en/actions) to schedule the posts.
@@ -6,7 +7,7 @@ This is a template repo for building [Bluesky](https://bsky.app/) bots that post
   * [Things you will need](#things-you-will-need)
     * [A Bluesky account](#a-bluesky-account)
     * [Node.js](#nodejs)
-  * [Create a new repository from this template](#create-a-new-repository-from-this-template)
+  * [Clone the repository](#clone-the-repository)
   * [Running locally to test](#running-locally-to-test)
   * [Create your own posts](#create-your-own-posts)
   * [Deploy](#deploy)
@@ -27,70 +28,97 @@ Once you have an account for your bot, you will need to know your bot's handle a
 
 #### Node.js
 
-To run this bot locally on your own machine you will need [Node.js](https://nodejs.org/en) version 18.16.0.
+To run this bot locally on your own machine you will need [Node.js](https://nodejs.org/en) version 18.16.0 or above.
 
-### Create a new repository from this template
+### Clone the repository
 
-Create your own project by clicking "Use this template" on GitHub and then "Create a new repository". Select an owner and give your new repository a name and an optional description. Then click "Create repository from template".
-
-Clone your new repository to your own machine.
+To get started, simply clone the bot from the official repository:
 
 ```sh
-git clone git@github.com:${YOUR_USERNAME}/${YOUR_REPO_NAME}.git
-cd ${YOUR_REPO_NAME}
+git clone https://github.com/sumn2u/climatehash-bot.git
+cd climatehash-bot
 ```
 
 ### Running locally to test
 
-To run the bot locally you will need to install the dependencies:
+Follow these simple steps to run the Bluesky bot on your computer, whether you're using **Windows** or **Linux**.
+
+#### 1. 🚀 Install Dependencies
+
+Open a terminal or command prompt, and run:
 
 ```sh
 npm install
 ```
 
-Copy the `.env.example` file to `.env`.
+This installs everything the bot needs to run.
+
+#### 2. 🛠️ Set Up the Environment File
+
+Copy the example `.env` file and rename it to `.env`.
+
+- **Linux/macOS:**
 
 ```sh
 cp .env.example .env
 ```
 
-Fill in `.env` with your Bluesky handle and password.
+- **Windows (Command Prompt):**
 
-Build the project with:
+```cmd
+copy .env.example .env
+```
+
+Then open the `.env` file in a text editor (like Notepad or VS Code), and fill in your **Bluesky username** and **password**.
+
+#### 3. 🧱 Build the Bot
+
+Run this command to prepare the project:
 
 ```sh
 npm run build
 ```
 
+> 💡 **Optional:** Want the bot to send messages somewhere else?  
+> Open `src/lib/bot.ts` and change the URL on **line 50**.
 
-> **Note:** Update the URL in [`src/lib/bot.ts`](https://github.com/sumn2u/climatehash-bot/blob/main/src/lib/bot.ts#L50) on line 50 to your desired endpoint.
+#### 4. ▶️ Run the Bot (Test Mode)
 
-
-You can now run the bot locally with the command:
+Run this to test the bot without making a real post:
 
 ```sh
 npm run dev
 ```
 
-This will use your credentials to connect to Bluesky, but it *won't actually create a post yet*. If your credentials are correct, you should see the following printed to your terminal:
+If everything is set up correctly, you’ll see:
 
 ```
 [TIMESTAMP] Posted: "Hello from the Bluesky API"
 ```
 
-To have the bot create a post to your Bluesky account, in `index.ts` change line 4 to remove the `{ dryRun: true }` object:
+✅ This means the bot successfully connected but **did not post anything yet**.
+
+#### 5. ✍️ Make a Real Post
+
+To have the bot create a post on your Bluesky account:
+
+1. Open `index.ts`
+2. Go to **line 4**
+3. Change this line by removing the `{ dryRun: true }` part:
 
 ```diff
 - const text = await Bot.run(getPostText, { dryRun: true });
 + const text = await Bot.run(getPostText);
 ```
 
-Build the project again, then run the command to create a post to actually create the post with the API:
+Then build and run the bot again:
 
 ```sh
 npm run build
 npm run dev
 ```
+
+🎉 That’s it! The bot will now post to your Bluesky account.
 
 ### Create your own posts
 
@@ -123,4 +151,3 @@ In your repo's settings, under *Secrets and variables* > *Actions* you need to e
 ### Set it live
 
 Once the schedule is set up and your Environment variables configured, push your changes to your repo and wait for the schedule to trigger the workflow. Your bot will start publishing posts based on your code.
-
